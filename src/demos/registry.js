@@ -34,7 +34,14 @@ export const demoGroups = [
     key: 'canvas',
     title: 'Canvas 2D',
     description: '从基础绘图 API 到动画、交互与坐标系变换。',
-    demos: [],
+    demos: [
+      {
+        slug: 'scratch-card-native',
+        title: '刮刮乐',
+        description: 'destination-out 擦除涂层，按刮开比例自动揭晓',
+        load: () => import('@/demos/canvas/scratch-card/native'),
+      },
+    ],
   },
   {
     key: 'three',

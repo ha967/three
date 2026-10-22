@@ -1,0 +1,258 @@
+/*
+ * 刮刮乐样式
+ *
+ * 分层关系：
+ *   .scratch-card    定位容器（position: relative）
+ *   .scratch-prize   底层奖品（absolute + inset: 0）
+ *   .scratch-canvas  顶层涂层（absolute + inset: 0）
+ */
+
+.scratch-demo {
+  max-width: 560px;
+}
+
+.scratch-header {
+  margin-bottom: 24px;
+}
+
+.scratch-eyebrow {
+  margin-bottom: 8px;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.scratch-header h1 {
+  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.scratch-intro {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+/* 卡片既是定位容器，也是 canvas 测量尺寸的参照物 */
+.scratch-card {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  /* 固定 4:3 比例，高度随宽度自动变化 */
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 底层奖品：铺满卡片，被上面的 canvas 涂层挡住 */
+.scratch-prize {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 30% 20%, rgb(255 255 255 / 70%), transparent 55%),
+    linear-gradient(135deg, #fff5e8, #ffe3c2);
+  text-align: center;
+}
+
+.scratch-prize--empty {
+  background:
+    radial-gradient(circle at 30% 20%, rgb(255 255 255 / 70%), transparent 55%),
+    linear-gradient(135deg, #f1f3f6, #e2e6ec);
+}
+
+.scratch-prize-icon {
+  font-size: clamp(36px, 8vw, 56px);
+  line-height: 1.1;
+}
+
+.scratch-prize-label {
+  color: #a3540b;
+  font-size: clamp(20px, 4.5vw, 28px);
+  font-weight: 700;
+}
+
+.scratch-prize--empty .scratch-prize-label {
+  color: #667085;
+}
+
+.scratch-prize-note {
+  color: #b07a44;
+  font-size: 13px;
+}
+
+.scratch-prize--empty .scratch-prize-note {
+  color: #98a2b3;
+}
+
+.scratch-card.is-revealed .scratch-prize-icon {
+  animation: scratch-pop 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes scratch-pop {
+  from {
+    transform: scale(0.7);
+    opacity: 0.4;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/*
+ * 顶层涂层：
+ * - inset: 0 + width/height 100%，让 canvas 的显示尺寸与卡片完全一致
+ * - touch-action: none 阻止移动端在涂抹时触发页面滚动 / 缩放手势
+ * - cursor: crosshair 提示这里可以刮
+ */
+.scratch-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+  transition: opacity 0.5s ease;
+}
+
+/* 揭晓后淡出，并彻底关闭指针事件，避免继续刮到透明画布 */
+.scratch-canvas.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scratch-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.scratch-progress {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+}
+
+.scratch-progress-track {
+  width: 96px;
+  height: 6px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--color-border);
+}
+
+.scratch-progress-bar {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-primary);
+  transition: width 0.2s ease;
+}
+
+.scratch-progress-text {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.scratch-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.scratch-button {
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 7px 16px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.scratch-button:hover {
+  border-color: #cfd6e0;
+  background: #f9fafb;
+}
+
+.scratch-button--primary {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.scratch-button--primary:hover {
+  border-color: #3d7bf0;
+  background: #3d7bf0;
+}
+
+.scratch-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 28px;
+  padding: 16px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.scratch-notes li {
+  position: relative;
+  padding-left: 16px;
+}
+
+.scratch-notes li::before {
+  position: absolute;
+  top: 9px;
+  left: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  content: '';
+}
+
+@media (max-width: 520px) {
+  .scratch-meta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .scratch-actions {
+    justify-content: flex-end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scratch-canvas {
+    transition: none;
+  }
+
+  .scratch-card.is-revealed .scratch-prize-icon {
+    animation: none;
+  }
+}
