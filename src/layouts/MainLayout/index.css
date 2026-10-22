@@ -1,0 +1,133 @@
+.app {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
+.app-header {
+  display: flex;
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--color-border);
+  padding: 14px 28px;
+  background: rgb(255 255 255 / 85%);
+  backdrop-filter: blur(8px);
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.app-brand-mark {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #4f8cff, #8b5cf6);
+}
+
+.app-tagline {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+}
+
+.app-sidebar {
+  display: flex;
+  width: 232px;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 28px;
+  border-right: 1px solid var(--color-border);
+  padding: 28px 18px;
+  background: var(--color-surface);
+}
+
+.app-group-title {
+  margin-bottom: 10px;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.app-group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.app-link {
+  display: block;
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.app-link:hover {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.app-link-active {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.app-group-empty {
+  padding: 0 12px;
+  color: #b0b7c3;
+  font-size: 13px;
+}
+
+.app-main {
+  min-width: 0;
+  flex: 1;
+  padding: 36px 40px 56px;
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    padding: 12px 18px;
+  }
+
+  .app-tagline {
+    display: none;
+  }
+
+  .app-body {
+    flex-direction: column;
+  }
+
+  .app-sidebar {
+    width: auto;
+    flex-direction: row;
+    gap: 24px;
+    overflow-x: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    padding: 16px 18px;
+  }
+
+  .app-main {
+    padding: 24px 18px 40px;
+  }
+}

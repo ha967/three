@@ -1,0 +1,134 @@
+.home {
+  max-width: 880px;
+}
+
+.home-hero {
+  margin-bottom: 44px;
+}
+
+.home-eyebrow {
+  margin-bottom: 10px;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.home-hero h1 {
+  margin-bottom: 14px;
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.home-intro {
+  max-width: 640px;
+  color: var(--color-text-secondary);
+  font-size: 15px;
+}
+
+.home-intro code,
+.home-steps code,
+.home-structure code {
+  border-radius: 5px;
+  padding: 2px 6px;
+  background: var(--color-primary-soft);
+  color: #2b5fbf;
+}
+
+.home-section {
+  margin-bottom: 40px;
+}
+
+.home-section-title {
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.home-cards {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.home-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.home-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.home-card-head h3 {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.home-badge {
+  flex-shrink: 0;
+  border-radius: 999px;
+  padding: 2px 10px;
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.home-card p {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.home-structure {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.home-structure-row {
+  display: grid;
+  gap: 16px;
+  padding: 12px 20px;
+  grid-template-columns: 190px 1fr;
+}
+
+.home-structure-row + .home-structure-row {
+  border-top: 1px solid var(--color-border);
+}
+
+.home-structure-row dd {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.home-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 20px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  list-style: decimal;
+}
+
+.home-steps li::marker {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .home-structure-row {
+    gap: 2px;
+    grid-template-columns: 1fr;
+  }
+}
