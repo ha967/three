@@ -19,6 +19,10 @@ import './index.css';
  *     points: [{ x, y }, ...],  // 坐标归一化到 0~1
  *   }
  *
+ * 一次拖动可能产生多条 stroke：
+ * 指针移出画布时暂停记录，移回时另起一条，避免在边缘拖出一条线。
+ * 提交时这些子笔画会作为一步历史一起加入，撤销一次即可全部回退。
+ *
  * 为什么用归一化坐标（0~1）？
  * 如果存的是像素坐标，容器一变大，之前画的线就会挤在左上角。
  * 存成 0~1 的比例后，任何时候乘以当前宽高就能还原到正确位置，
@@ -43,11 +47,6 @@ const MAX_HISTORY = 50;
 // 历史记录统一用一个对象表示：
 // past：过去的状态，present：当前状态，future：被撤销掉、可以重做的状态
 const EMPTY_HISTORY = { past: [], present: [], future: [] };
-
-// 把数值限制在 0 ~ 1 之间，防止指针移出画布后坐标越界
-function clamp01(value) {
-  return Math.min(1, Math.max(0, value));
-}
 
 /**
  * 在 2D 上下文里绘制一条笔画。
@@ -113,8 +112,12 @@ export default function DoodleBoardNativeDemo() {
 
   // sizeRef：画布的 CSS 尺寸与设备像素比。高频读写，不需要触发渲染，所以用 ref
   const sizeRef = useRef({ width: 0, height: 0, dpr: 1 });
-  // currentRef：正在画、还没结束的笔画
-  const currentRef = useRef(null);
+  // activeStrokesRef：本次拖动中尚未提交的子笔画。
+  // 指针移出画布时会结束当前这一段，移回后再新建一条，
+  // 所以一次拖动可能产生多条子笔画。
+  const activeStrokesRef = useRef([]);
+  // activeRef：当前正在追加坐标的那一段；指针在画布外时为 null
+  const activeRef = useRef(null);
   // drawingRef：当前是否处于「按下并拖动」状态
   const drawingRef = useRef(false);
   // frameRef：requestAnimationFrame 的 id，用来合并多次重绘请求
@@ -152,12 +155,12 @@ export default function DoodleBoardNativeDemo() {
     // 清成透明。画布的白色背景由 CSS 提供，这样橡皮擦才能「擦出白色」
     context.clearRect(0, 0, width, height);
 
-    // 先画所有已完成的笔画，再画正在拖动的那一条
+    // 先画所有已完成的笔画，再画本次拖动中还没提交的子笔画
     for (const stroke of strokesRef.current) {
       drawStroke(context, stroke, width, height);
     }
-    if (currentRef.current) {
-      drawStroke(context, currentRef.current, width, height);
+    for (const stroke of activeStrokesRef.current) {
+      drawStroke(context, stroke, width, height);
     }
   }, []);
 
@@ -235,16 +238,32 @@ export default function DoodleBoardNativeDemo() {
   }, [redraw]);
 
   /**
-   * 把指针的页面坐标换算成画布内的归一化坐标。
-   * event.currentTarget 就是绑定了事件的 canvas 元素。
+   * 把指针的页面坐标换算成归一化坐标，并判断是否在画布内。
+   *
+   * 这里不能直接 clamp：把画布外的坐标压到 0~1，
+   * 笔迹就会一直贴着边缘延伸。正确做法是返回 inside，
+   * 由事件处理函数决定「继续记录」还是「结束当前子笔画」。
    */
   const getNormalizedPoint = (event) => {
     const rect = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
     return {
-      x: clamp01((event.clientX - rect.left) / rect.width),
-      y: clamp01((event.clientY - rect.top) / rect.height),
+      inside: x >= 0 && x <= 1 && y >= 0 && y <= 1,
+      x,
+      y,
     };
   };
+
+  /**
+   * 新建一段子笔画。笔刷粗细在这里换算成相对画布宽度的比例。
+   */
+  const createStroke = (point) => ({
+    tool,
+    color,
+    size: brushSize / sizeRef.current.width,
+    points: [point],
+  });
 
   const handlePointerDown = (event) => {
     // 只响应鼠标左键；触摸和手写笔的 button 也是 0
@@ -257,23 +276,48 @@ export default function DoodleBoardNativeDemo() {
     event.currentTarget.setPointerCapture(event.pointerId);
     drawingRef.current = true;
 
-    currentRef.current = {
-      tool,
-      color,
-      // 把用户选择的像素粗细换算成相对于画布宽度的比例
-      size: brushSize / width,
-      points: [getNormalizedPoint(event)],
-    };
+    const point = getNormalizedPoint(event);
+    if (!point.inside) return;
+
+    const stroke = createStroke({ x: point.x, y: point.y });
+    activeRef.current = stroke;
+    activeStrokesRef.current = [stroke];
 
     // 先画一个圆点，单击也能留下痕迹
     scheduleRedraw();
   };
 
   const handlePointerMove = (event) => {
-    if (!drawingRef.current || !currentRef.current) return;
+    // 指针必须处于按下状态；画布外的 move 事件也要处理，用于分段
+    if (!drawingRef.current) return;
 
-    // 只记录坐标，不直接画；真正绘制交给下一帧的 redraw
-    currentRef.current.points.push(getNormalizedPoint(event));
+    const point = getNormalizedPoint(event);
+
+    if (!point.inside) {
+      /*
+       * 指针移出画布：
+       * - 结束当前这一段的追加（activeRef 置空）；
+       * - 但不结束整个拖动，pointer capture 会让后续 move 继续送到这里；
+       * - 不记录外部坐标，所以不会在画布边缘拖出一条线。
+       */
+      activeRef.current = null;
+      return;
+    }
+
+    if (!activeRef.current) {
+      /*
+       * 指针从外面重新进入画布：
+       * 新建一段子笔画，从进入点开始画。
+       * 这样不会和离开前的最后一点连成一条横穿画布的线。
+       */
+      const stroke = createStroke({ x: point.x, y: point.y });
+      activeRef.current = stroke;
+      activeStrokesRef.current.push(stroke);
+    } else {
+      // 正常绘制：只记录坐标，下一帧统一重绘
+      activeRef.current.points.push({ x: point.x, y: point.y });
+    }
+
     scheduleRedraw();
   };
 
@@ -285,28 +329,28 @@ export default function DoodleBoardNativeDemo() {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
 
-    const finishedStroke = currentRef.current;
-    currentRef.current = null;
-    if (!finishedStroke) {
-      scheduleRedraw();
-      return;
-    }
+    // 本次拖动可能分成多段，全部作为同一步历史提交
+    const finishedStrokes = activeStrokesRef.current;
+    activeStrokesRef.current = [];
+    activeRef.current = null;
 
-    // 把完成的笔画加入当前状态，同时把旧状态压入 past 供撤销
+    if (finishedStrokes.length === 0) return;
+
     setHistory((previous) => ({
       past: [...previous.past, previous.present].slice(-MAX_HISTORY),
-      present: [...previous.present, finishedStroke],
+      present: [...previous.present, ...finishedStrokes],
       future: [],
     }));
   };
 
   // pointercancel：浏览器或系统打断了这次操作（如来电、手势切换）
-  // 这种情况下丢弃未完成的笔画，不写入历史
+  // 这种情况下丢弃本次拖动所有未完成的笔画，不写入历史
   const handlePointerCancel = (event) => {
     if (!drawingRef.current) return;
 
     drawingRef.current = false;
-    currentRef.current = null;
+    activeStrokesRef.current = [];
+    activeRef.current = null;
 
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
@@ -482,6 +526,7 @@ export default function DoodleBoardNativeDemo() {
 
       <ul className="doodle-notes">
         <li>笔画保存为归一化坐标（0~1），容器尺寸变化后按新尺寸重绘，图形不会错位。</li>
+        <li>指针拖出画布时暂停记录，移回后另起一段继续画，不会沿着边缘拖线。</li>
         <li>橡皮擦使用 destination-out 合成模式，白色背景由 CSS 提供，导出时再合成白底。</li>
         <li>pointermove 高频触发，重绘请求通过 requestAnimationFrame 合并到下一帧。</li>
         <li>撤销 / 重做保存的是笔画数组快照，因此清空、连续绘制都能正确回退。</li>
