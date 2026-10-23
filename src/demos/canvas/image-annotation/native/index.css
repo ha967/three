@@ -1,0 +1,5 @@
+@import '../shared.css';
+
+/*
+ * 原生版 canvas 铺满容器即可，分辨率由 JS 按 DPR 设置。
+ */

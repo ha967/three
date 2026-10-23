@@ -1,0 +1,11 @@
+@import '../shared.css';
+
+/*
+ * 原生版 canvas 铺满舞台即可。
+ * 分辨率由 JS 按 DPR 设置，CSS 只控制显示尺寸。
+ */
+
+.particle-native-canvas {
+  cursor: crosshair;
+  touch-action: none;
+}

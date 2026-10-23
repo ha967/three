@@ -1,0 +1,9 @@
+@import '../shared.css';
+
+/*
+ * ECharts 版由库创建 canvas，容器尺寸由 ResizeObserver 同步给图表实例。
+ */
+
+.chart-echarts-stage {
+  padding: 0;
+}

@@ -1,0 +1,11 @@
+@import '../shared.css';
+
+/*
+ * 原生版只需要让 canvas 铺满裁剪容器。
+ * 真实位图尺寸由 JS 按 DPR 设置，CSS 这里只负责显示尺寸。
+ */
+
+.avatar-native-stage {
+  /* 深色底可以在拖动图片时看清边界 */
+  background: #0f172a;
+}

@@ -1,0 +1,28 @@
+@import '../shared.css';
+
+/*
+ * cropperjs 版特有样式。
+ * Cropper 会自动在图片周围生成容器和裁剪框，这里只限制图片的初始显示尺寸。
+ */
+
+.avatar-cropper-stage {
+  /* 示例图是 16:10，让舞台保持同样比例，避免上下出现黑边 */
+  aspect-ratio: 16 / 10;
+  background: #0f172a;
+}
+
+.avatar-cropper-stage img {
+  display: block;
+  max-width: 100%;
+}
+
+/* 让 Cropper 的棋盘背景更柔和一些 */
+.avatar-cropper-stage .cropper-bg {
+  background-color: #1e293b;
+}
+
+.avatar-zoom-hint {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}

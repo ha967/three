@@ -1,0 +1,11 @@
+@import '../shared.css';
+
+/*
+ * PixiJS 版画布由库自己创建并插入舞台容器。
+ * 让它在容器里铺满，并保留十字光标与触摸行为。
+ */
+
+.particle-pixi-canvas {
+  cursor: crosshair;
+  touch-action: none;
+}

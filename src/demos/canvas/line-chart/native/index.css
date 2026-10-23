@@ -1,0 +1,6 @@
+@import '../shared.css';
+
+/*
+ * 原生版图表由 JS 绘制，这里只需要保证 canvas 尺寸正确。
+ * 具体样式（网格、坐标轴、tooltip）全部在 Canvas 里绘制。
+ */

@@ -1,0 +1,21 @@
+@import '../shared.css';
+
+/*
+ * Fabric 会创建自己的 .canvas-container 和上下两层 canvas。
+ * 这里把它们缩放到舞台容器大小；Fabric 内部会根据 boundingRect
+ * 自动换算指针坐标，所以 CSS 缩放不会影响点击位置。
+ */
+
+.annotation-fabric-stage .canvas-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.annotation-fabric-stage .canvas-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.annotation-fabric-stage.is-draw .upper-canvas {
+  cursor: crosshair !important;
+}

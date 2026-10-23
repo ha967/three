@@ -1,0 +1,197 @@
+/*
+ * 图片标注两个变体共用的页面与控件样式。
+ * 原生版和 Fabric 版使用同样的工具栏、标签色和画布容器。
+ */
+
+.annotation-demo {
+  max-width: 900px;
+}
+
+.annotation-header {
+  margin-bottom: 24px;
+}
+
+.annotation-eyebrow {
+  margin-bottom: 8px;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.annotation-header h1 {
+  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.annotation-intro {
+  max-width: 700px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.annotation-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  margin-bottom: 16px;
+  padding: 14px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.annotation-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.annotation-group__label {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.annotation-button {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 7px 13px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.annotation-button:hover:not(:disabled) {
+  border-color: #cfd6e0;
+  background: #f9fafb;
+}
+
+.annotation-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.annotation-button.is-active {
+  border-color: #bfd3ff;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.annotation-button--primary {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.annotation-button--primary:hover:not(:disabled) {
+  border-color: #3d7bf0;
+  background: #3d7bf0;
+}
+
+.annotation-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.annotation-label::before {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--label-color, var(--color-primary));
+  content: '';
+}
+
+.annotation-toolbar__end {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* 示例图是 1600 × 1000，容器保持同样比例，图片正好铺满 */
+.annotation-stage {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1600 / 1000;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: #eef1f5;
+  box-shadow: var(--shadow-md);
+}
+
+.annotation-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.annotation-canvas.is-draw {
+  cursor: crosshair;
+}
+
+.annotation-canvas.is-select {
+  cursor: default;
+}
+
+.annotation-stage-hint {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: rgb(15 23 42 / 55%);
+  color: #ffffff;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.annotation-error {
+  color: #d92d20;
+  font-size: 13px;
+}
+
+.annotation-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 24px;
+  padding: 16px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.annotation-notes li {
+  position: relative;
+  padding-left: 16px;
+}
+
+.annotation-notes li::before {
+  position: absolute;
+  top: 9px;
+  left: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  content: '';
+}
+
+@media (max-width: 720px) {
+  .annotation-toolbar__end {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,302 @@
+/*
+ * 头像裁剪两个变体共用的页面与控件样式。
+ * 原生版负责自己绘制裁剪区域，cropperjs 版交给库渲染，
+ * 外层布局、工具栏和预览卡片保持一致，方便对照。
+ */
+
+.avatar-demo {
+  max-width: 860px;
+}
+
+.avatar-header {
+  margin-bottom: 24px;
+}
+
+.avatar-eyebrow {
+  margin-bottom: 8px;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.avatar-header h1 {
+  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.avatar-intro {
+  max-width: 680px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+/* ── 工具栏 ───────────────────────────────────────────── */
+
+.avatar-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  padding: 14px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.avatar-file-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  padding: 7px 14px;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.avatar-file-button:hover {
+  background: #3d7bf0;
+}
+
+.avatar-file-name {
+  max-width: 160px;
+  overflow: hidden;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.avatar-slider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.avatar-slider input {
+  width: 110px;
+  accent-color: var(--color-primary);
+}
+
+.avatar-slider-value {
+  width: 42px;
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.avatar-button {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 7px 13px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.avatar-button:hover:not(:disabled) {
+  border-color: #cfd6e0;
+  background: #f9fafb;
+}
+
+.avatar-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.avatar-button--primary {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.avatar-button--primary:hover:not(:disabled) {
+  border-color: #3d7bf0;
+  background: #3d7bf0;
+}
+
+.avatar-toolbar__end {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* ── 主体：裁剪区 + 预览 ──────────────────────────────── */
+
+.avatar-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  margin-top: 18px;
+}
+
+.avatar-stage {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: #eef1f5;
+  box-shadow: var(--shadow-md);
+}
+
+.avatar-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+.avatar-canvas:active {
+  cursor: grabbing;
+}
+
+.avatar-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.avatar-placeholder strong {
+  color: var(--color-text);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.avatar-preview {
+  display: flex;
+  min-width: 190px;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.avatar-preview h2 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.avatar-preview img {
+  width: 128px;
+  height: 128px;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background:
+    linear-gradient(45deg, #f3f4f6 25%, transparent 25%) 0 0 / 16px 16px,
+    linear-gradient(-45deg, #f3f4f6 25%, transparent 25%) 0 8px / 16px 16px,
+    #ffffff;
+  object-fit: cover;
+}
+
+.avatar-preview-empty {
+  display: flex;
+  width: 128px;
+  height: 128px;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--color-border);
+  border-radius: 50%;
+  color: #b0b7c3;
+  font-size: 12px;
+  text-align: center;
+}
+
+.avatar-download {
+  border-radius: 8px;
+  padding: 7px 14px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.avatar-hint {
+  color: #98a2b3;
+  font-size: 12px;
+  text-align: center;
+}
+
+.avatar-error {
+  color: #d92d20;
+  font-size: 13px;
+}
+
+.avatar-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 24px;
+  padding: 16px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.avatar-notes li {
+  position: relative;
+  padding-left: 16px;
+}
+
+.avatar-notes li::before {
+  position: absolute;
+  top: 9px;
+  left: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  content: '';
+}
+
+@media (max-width: 780px) {
+  .avatar-layout {
+    flex-direction: column;
+  }
+
+  .avatar-stage {
+    max-width: 100%;
+  }
+
+  .avatar-preview {
+    width: 100%;
+  }
+
+  .avatar-toolbar__end {
+    margin-left: 0;
+  }
+}

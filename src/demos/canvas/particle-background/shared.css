@@ -1,0 +1,175 @@
+/*
+ * 粒子背景两个变体共用的界面样式。
+ * 原生版和 PixiJS 版使用相同的舞台尺寸与控制项，方便对照性能与写法。
+ */
+
+.particle-demo {
+  max-width: 880px;
+}
+
+.particle-header {
+  margin-bottom: 24px;
+}
+
+.particle-eyebrow {
+  margin-bottom: 8px;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.particle-header h1 {
+  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.particle-intro {
+  max-width: 680px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.particle-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-bottom: 16px;
+  padding: 14px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.particle-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.particle-slider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.particle-slider input {
+  width: 110px;
+  accent-color: var(--color-primary);
+}
+
+.particle-slider-value {
+  width: 34px;
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.particle-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.particle-check input {
+  accent-color: var(--color-primary);
+}
+
+.particle-button {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 7px 13px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.particle-button:hover {
+  border-color: #cfd6e0;
+  background: #f9fafb;
+}
+
+.particle-button--primary {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.particle-button--primary:hover {
+  border-color: #3d7bf0;
+  background: #3d7bf0;
+}
+
+.particle-toolbar__end {
+  margin-left: auto;
+}
+
+/* 深色舞台让浅色粒子更明显 */
+.particle-stage {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid #1e293b;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% 40%, rgb(79 140 255 / 14%), transparent 60%),
+    #0b1020;
+  box-shadow: var(--shadow-md);
+}
+
+.particle-stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.particle-error {
+  color: #d92d20;
+  font-size: 13px;
+}
+
+.particle-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 24px;
+  padding: 16px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.particle-notes li {
+  position: relative;
+  padding-left: 16px;
+}
+
+.particle-notes li::before {
+  position: absolute;
+  top: 9px;
+  left: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  content: '';
+}
+
+@media (max-width: 640px) {
+  .particle-toolbar__end {
+    margin-left: 0;
+  }
+}
