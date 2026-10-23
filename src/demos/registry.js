@@ -59,6 +59,19 @@ export const demoGroups = [
     key: 'three',
     title: 'Three.js',
     description: '场景、相机、渲染器、几何体、材质与光照。',
-    demos: [],
+    demos: [
+      {
+        slug: 'basic-cube',
+        title: '旋转立方体',
+        description: '场景、相机、渲染器与渲染循环',
+        load: () => import('@/demos/three/basic-cube'),
+      },
+      {
+        slug: 'lighting-shadow',
+        title: '光照与阴影',
+        description: '平行光、半球光、阴影贴图与 OrbitControls',
+        load: () => import('@/demos/three/lighting-shadow'),
+      },
+    ],
   },
 ];

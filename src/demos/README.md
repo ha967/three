@@ -17,18 +17,34 @@ src/demos/
 
 ## 已规划的学习模块
 
-目前只创建了目录与说明文档，实现代码待补充。每个模块先做原生版，再用库做一份对照。
+目前 Three.js 分组的前两个 demo 已实现；Canvas 模块只创建了目录与说明文档，实现代码待补充。每个 Canvas 模块先做原生版，再用库做一份对照。
 
-| 模块 | 目录 | 变体 | 难度 |
+| 模块 | 目录 | 变体 |
 | --- | --- | --- | --- |
-| 涂鸦画板 | `canvas/doodle-board/` | 原生、Konva | ★★☆ |
-| 头像裁剪 | `canvas/avatar-crop/` | 原生、cropperjs | ★★☆ |
-| 刮刮乐 | `canvas/scratch-card/` | 原生 | ★☆☆ |
-| 粒子背景 | `canvas/particle-background/` | 原生、PixiJS | ★★☆ |
-| 手写折线图 | `canvas/line-chart/` | 原生、ECharts | ★★★ |
-| 图片标注 | `canvas/image-annotation/` | 原生、Fabric.js | ★★★ |
+| 涂鸦画板 | `canvas/doodle-board/` | 原生、Konva |
+| 头像裁剪 | `canvas/avatar-crop/` | 原生、cropperjs |
+| 刮刮乐 | `canvas/scratch-card/` | 原生 |
+| 粒子背景 | `canvas/particle-background/` | 原生、PixiJS |
+| 手写折线图 | `canvas/line-chart/` | 原生、ECharts |
+| 图片标注 | `canvas/image-annotation/` | 原生、Fabric.js |
+| 旋转立方体 | `three/basic-cube/` | 原生 |
+| 光照与阴影 | `three/lighting-shadow/` | 原生 |
 
 各模块的目标、实现要点、验收清单见对应目录下的 `README.md`。
+
+## Three.js 学习顺序
+
+按这个顺序新增 demo，每一步只引入一个新概念：
+
+1. [x] 旋转立方体 —— Scene / Camera / Renderer、渲染循环、尺寸适配
+2. [x] 光照与阴影 —— 平行光、半球光、阴影贴图、OrbitControls
+3. [ ] 纹理与地球 —— TextureLoader、色彩空间、球体 UV
+4. [ ] glTF 模型加载 —— 异步加载、模型居中、资源释放
+5. [ ] 粒子星空 —— BufferGeometry、Points、顶点属性
+6. [ ] 射线拾取 —— Raycaster、NDC 坐标、悬停高亮
+7. [ ] 后处理 —— EffectComposer、Bloom
+8. [ ] 实例化渲染 —— InstancedMesh、draw call 与性能观测
+9. [ ] ShaderMaterial 入门 —— 顶点着色器与片段着色器
 
 ## 命名
 
