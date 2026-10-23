@@ -36,6 +36,18 @@ export const demoGroups = [
     description: '从基础绘图 API 到动画、交互与坐标系变换。',
     demos: [
       {
+        slug: 'doodle-board-native',
+        title: '涂鸦画板（原生）',
+        description: '归一化坐标、DPR、rAF 重绘与撤销重做',
+        load: () => import('@/demos/canvas/doodle-board/native'),
+      },
+      {
+        slug: 'doodle-board-konva',
+        title: '涂鸦画板（Konva）',
+        description: '用 react-konva 的声明式节点实现同样的画板',
+        load: () => import('@/demos/canvas/doodle-board/konva'),
+      },
+      {
         slug: 'scratch-card-native',
         title: '刮刮乐',
         description: 'destination-out 擦除涂层，按刮开比例自动揭晓',

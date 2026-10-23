@@ -1,0 +1,19 @@
+@import '../shared.css';
+
+/*
+ * 原生 Canvas 版特有样式。
+ * canvas 是普通 DOM 元素，撑满容器即可；真实位图分辨率由 JS 按 DPR 设置。
+ */
+
+.doodle-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+/* 橡皮擦模式下换一个光标，提示当前工具 */
+.doodle-canvas.is-eraser {
+  cursor: cell;
+}
