@@ -106,7 +106,7 @@ export const demoGroups = [
   {
     key: 'three',
     title: 'Three.js',
-    description: '场景、相机、渲染器、几何体、材质与光照。',
+    description: '从场景基础到纹理、模型、粒子、拾取、后处理与着色器。',
     demos: [
       {
         slug: 'basic-cube',
@@ -119,6 +119,48 @@ export const demoGroups = [
         title: '光照与阴影',
         description: '平行光、半球光、阴影贴图与 OrbitControls',
         load: () => import('@/demos/three/lighting-shadow'),
+      },
+      {
+        slug: 'texture-earth',
+        title: '纹理与地球',
+        description: 'TextureLoader、色彩空间、球体 UV 与大气辉光',
+        load: () => import('@/demos/three/texture-earth'),
+      },
+      {
+        slug: 'gltf-model',
+        title: 'glTF 模型加载',
+        description: '异步加载、包围盒归一化、相机取景与资源释放',
+        load: () => import('@/demos/three/gltf-model'),
+      },
+      {
+        slug: 'particle-stars',
+        title: '粒子星空',
+        description: 'BufferGeometry、Points 与顶点颜色',
+        load: () => import('@/demos/three/particle-stars'),
+      },
+      {
+        slug: 'raycaster-pick',
+        title: '射线拾取',
+        description: 'NDC 坐标、Raycaster 与悬停/选中反馈',
+        load: () => import('@/demos/three/raycaster-pick'),
+      },
+      {
+        slug: 'postprocessing-bloom',
+        title: '后处理与辉光',
+        description: 'EffectComposer、UnrealBloomPass 与 OutputPass',
+        load: () => import('@/demos/three/postprocessing-bloom'),
+      },
+      {
+        slug: 'instanced-mesh',
+        title: '实例化渲染',
+        description: 'InstancedMesh、实例矩阵与绘制调用',
+        load: () => import('@/demos/three/instanced-mesh'),
+      },
+      {
+        slug: 'shader-material',
+        title: 'ShaderMaterial 入门',
+        description: '顶点/片段着色器、uniform 与 varying',
+        load: () => import('@/demos/three/shader-material'),
       },
     ],
   },

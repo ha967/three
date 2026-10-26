@@ -1,0 +1,236 @@
+/*
+ * Three.js demo 共用的页面样式。
+ *
+ * 每个 demo 的 index.css 第一行写：
+ *   @import '../shared.css';
+ * 然后只补充自己特有的部分（信息面板、图例等），
+ * 这样 9 个 demo 的标题、舞台、说明区、控制条保持完全一致。
+ *
+ * 结构：
+ *   .three-demo         页面最外层
+ *   .three-stage        固定宽高比的舞台
+ *   .three-canvas-host  WebGLRenderer 的挂载容器
+ *   .three-controls     底部参数控制条
+ *   .three-notes        实现要点说明区
+ */
+
+.three-demo {
+  max-width: 920px;
+}
+
+.three-header {
+  margin-bottom: 20px;
+}
+
+.three-eyebrow {
+  margin-bottom: 8px;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.three-header h1 {
+  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.three-intro {
+  max-width: 720px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+/* ── 舞台与画布 ───────────────────────────────────────── */
+
+.three-stage {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  /* 和 scene.background 保持一致，避免首帧渲染前出现白边 */
+  background: #0b1220;
+  box-shadow: var(--shadow-md);
+  /* 移动端在画布上拖动时不要触发页面滚动 */
+  touch-action: none;
+}
+
+.three-canvas-host {
+  position: absolute;
+  inset: 0;
+}
+
+.three-canvas-host canvas {
+  display: block;
+}
+
+/* 左下角操作提示，浮在画布上但不拦截指针事件 */
+.three-stage-hint {
+  position: absolute;
+  bottom: 14px;
+  left: 16px;
+  margin: 0;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgb(15 23 42 / 55%);
+  color: rgb(226 232 240 / 85%);
+  font-size: 12px;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+}
+
+/* ── 加载中 / 错误遮罩 ───────────────────────────────── */
+
+.three-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  background: rgb(11 18 32 / 78%);
+  color: #e2e8f0;
+  font-size: 13px;
+  text-align: center;
+  backdrop-filter: blur(3px);
+}
+
+.three-overlay p {
+  margin: 0;
+}
+
+.three-overlay--error {
+  color: #fca5a5;
+}
+
+/* 加载进度条：宽度跟随百分比 */
+.three-progress {
+  overflow: hidden;
+  width: min(240px, 60%);
+  height: 6px;
+  border-radius: 999px;
+  background: rgb(148 163 184 / 30%);
+}
+
+.three-progress-bar {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-primary);
+  transition: width 0.2s ease;
+}
+
+/* ── 控制条 ───────────────────────────────────────────── */
+
+.three-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  margin-top: 16px;
+  padding: 14px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.three-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.three-control input[type='range'] {
+  width: 110px;
+  accent-color: var(--color-primary);
+}
+
+/* 数值右对齐并等宽，拖动滑块时文字不会左右抖动 */
+.three-control output {
+  min-width: 44px;
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.three-control--check input {
+  accent-color: var(--color-primary);
+}
+
+/* ── 统计信息与来源标注 ───────────────────────────────── */
+
+.three-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin-top: 16px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.three-stats strong {
+  color: var(--color-text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.three-credit {
+  margin-top: 16px;
+  color: #98a2b3;
+  font-size: 12px;
+}
+
+.three-credit a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ── 底部说明 ─────────────────────────────────────────── */
+
+.three-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 24px;
+  padding: 16px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.three-notes li {
+  position: relative;
+  padding-left: 16px;
+}
+
+.three-notes li::before {
+  position: absolute;
+  top: 9px;
+  left: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  content: '';
+}
+
+@media (max-width: 640px) {
+  .three-stage {
+    aspect-ratio: 4 / 3;
+  }
+
+  .three-control input[type='range'] {
+    width: 90px;
+  }
+}

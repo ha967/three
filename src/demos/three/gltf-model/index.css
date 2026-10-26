@@ -1,0 +1,5 @@
+/*
+ * glTF 模型加载 demo 的特有样式。
+ * 加载遮罩、进度条、统计信息、来源标注都在 shared.css 里。
+ */
+@import '../shared.css';

@@ -204,12 +204,15 @@ export default function LightingShadowDemo() {
     observer.observe(host);
 
     // ── 8. 渲染循环 ───────────────────────────────────────────
-    const clock = new THREE.Clock();
+    // Timer 的 delta 以秒为单位，保证动画速度与刷新率无关
+    const timer = new THREE.Timer();
+    timer.connect(document);
     let orbitAngle = 0;
     let frameId = 0;
 
-    const animate = () => {
-      const delta = clock.getDelta();
+    const animate = (timestamp) => {
+      timer.update(timestamp);
+      const delta = timer.getDelta();
 
       // 光源绕场景中心旋转：用 cos / sin 算出圆周上的位置。
       // 平行光只看方向，所以移动它的位置就能改变光照方向，阴影也会跟着转。
@@ -236,6 +239,7 @@ export default function LightingShadowDemo() {
     // ── 9. 清理 ───────────────────────────────────────────────
     return () => {
       cancelAnimationFrame(frameId);
+      timer.dispose();
       observer.disconnect();
       controls.dispose();
       liveRef.current = null;

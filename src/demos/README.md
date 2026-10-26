@@ -9,15 +9,17 @@ src/demos/
 │       ├── index.jsx
 │       └── index.css
 ├── three/            Three.js
+│   ├── shared.css     各 demo 共用的页面样式
 │   └── <demo-name>/
 │       ├── index.jsx
-│       └── index.css
+│       ├── index.css
+│       └── README.md
 └── registry.js       demo 注册表
 ```
 
 ## 已规划的学习模块
 
-Three.js 分组的前两个 demo 以及全部 Canvas 模块均已实现。每个 Canvas 模块先做原生版，再用库做一份对照。
+Three.js 的 9 个学习 demo 与全部 Canvas 模块均已实现。每个 Canvas 模块先做原生版，再用库做一份对照。
 
 | 模块 | 目录 | 变体 |
 | --- | --- | --- | --- |
@@ -29,6 +31,13 @@ Three.js 分组的前两个 demo 以及全部 Canvas 模块均已实现。每个
 | 图片标注 | `canvas/image-annotation/` | 原生、Fabric.js |
 | 旋转立方体 | `three/basic-cube/` | 原生 |
 | 光照与阴影 | `three/lighting-shadow/` | 原生 |
+| 纹理与地球 | `three/texture-earth/` | 原生 |
+| glTF 模型加载 | `three/gltf-model/` | 原生 |
+| 粒子星空 | `three/particle-stars/` | 原生 |
+| 射线拾取 | `three/raycaster-pick/` | 原生 |
+| 后处理与辉光 | `three/postprocessing-bloom/` | 原生 |
+| 实例化渲染 | `three/instanced-mesh/` | 原生 |
+| ShaderMaterial 入门 | `three/shader-material/` | 原生 |
 
 各模块的目标、实现要点、验收清单见对应目录下的 `README.md`。
 
@@ -38,18 +47,19 @@ Three.js 分组的前两个 demo 以及全部 Canvas 模块均已实现。每个
 
 1. [x] 旋转立方体 —— Scene / Camera / Renderer、渲染循环、尺寸适配
 2. [x] 光照与阴影 —— 平行光、半球光、阴影贴图、OrbitControls
-3. [ ] 纹理与地球 —— TextureLoader、色彩空间、球体 UV
-4. [ ] glTF 模型加载 —— 异步加载、模型居中、资源释放
-5. [ ] 粒子星空 —— BufferGeometry、Points、顶点属性
-6. [ ] 射线拾取 —— Raycaster、NDC 坐标、悬停高亮
-7. [ ] 后处理 —— EffectComposer、Bloom
-8. [ ] 实例化渲染 —— InstancedMesh、draw call 与性能观测
-9. [ ] ShaderMaterial 入门 —— 顶点着色器与片段着色器
+3. [x] 纹理与地球 —— TextureLoader、色彩空间、球体 UV
+4. [x] glTF 模型加载 —— 异步加载、模型居中、资源释放
+5. [x] 粒子星空 —— BufferGeometry、Points、顶点属性
+6. [x] 射线拾取 —— Raycaster、NDC 坐标、悬停高亮
+7. [x] 后处理 —— EffectComposer、Bloom
+8. [x] 实例化渲染 —— InstancedMesh、draw call 与性能观测
+9. [x] ShaderMaterial 入门 —— 顶点着色器与片段着色器
 
 ## 命名
 
 - 目录名使用 kebab-case，例如 `basic-cube`、`render-loop`。
 - 每个 demo 以 `index.jsx` 作为默认导出组件，样式写在同目录的 `index.css`。
+- Three.js demo 的 `index.css` 以 `@import '../shared.css';` 复用页面布局，只补充自己特有的样式。
 - 需要复用的 Three.js 封装放到 `src/three/`，不要写进 demo 目录。
 
 ## 注册

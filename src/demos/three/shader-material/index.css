@@ -1,0 +1,5 @@
+/*
+ * ShaderMaterial 入门 demo 的特有样式。
+ * 页面布局、舞台、控制条、统计信息、说明区都在 shared.css 里。
+ */
+@import '../shared.css';

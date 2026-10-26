@@ -42,8 +42,10 @@ npm run dev      # 启动开发服务器，默认 http://localhost:5173
 three/
 ├── public/
 │   ├── favicon.svg
-│   └── models/                 # 3D 模型与贴图（构建时原样复制）
-│       └── city/               # glTF 城市模型
+│   ├── models/                 # 3D 模型与贴图（构建时原样复制）
+│   │   └── city/               # glTF 城市模型
+│   └── textures/
+│       └── earth-map.svg       # 程序化世界地图，纹理 demo 使用
 ├── src/
 │   ├── assets/                 # 参与构建的图片、字体等静态资源
 │   ├── components/             # 通用展示组件（与具体 demo 无关）

@@ -7,7 +7,7 @@
 - 理解 `Scene → Camera → Renderer` 三件套的分工
 - 用 `BoxGeometry` + `MeshStandardMaterial` + `Mesh` 组装第一个物体
 - 用 `DirectionalLight` / `AmbientLight` 照亮物理材质
-- 用 `Clock` 的 delta 实现与刷新率无关的动画
+- 用 `Timer` 的 delta 实现与刷新率无关的动画
 - 容器尺寸适配、DPR 上限、组件卸载时释放 GPU 资源
 
 ## 实现要点
@@ -16,7 +16,7 @@
 2. **相机**：`PerspectiveCamera(fov, aspect, near, far)`，修改 `aspect` 后必须调用 `updateProjectionMatrix()`。
 3. **渲染器**：`WebGLRenderer({ antialias: true })`，`setPixelRatio` 上限取 2，显式设置 `outputColorSpace`。
 4. **物体**：`Mesh = Geometry + Material`，几何体只管形状，材质决定表面如何响应光照。
-5. **动画**：`clock.getDelta()` 返回上一帧到这一帧的秒数，用「角速度 × delta」更新旋转。
+5. **动画**：每帧 `timer.update(timestamp)` 后，`timer.getDelta()` 返回上一帧到这一帧的秒数，用「角速度 × delta」更新旋转。
 6. **尺寸**：`ResizeObserver` 监听容器，同步相机宽高比和 `renderer.setSize`。
 7. **清理**：取消 `requestAnimationFrame`、断开 observer、释放 geometry / material / renderer。
 

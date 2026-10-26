@@ -1,0 +1,50 @@
+/*
+ * 射线拾取 demo 的特有样式。
+ * 页面布局、舞台、说明区等通用样式都在 shared.css 里。
+ */
+@import '../shared.css';
+
+/* 悬停时右下角的物体名称胶囊 */
+.raycast-hover {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  margin: 0;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgb(37 99 235 / 75%);
+  color: #eff6ff;
+  font-size: 12px;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+}
+
+/* 选中物体后的信息面板。pointer-events: none 避免挡住后续点击 */
+.raycast-info {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  min-width: 200px;
+  max-width: 260px;
+  padding: 12px 14px;
+  border: 1px solid rgb(148 163 184 / 28%);
+  border-radius: 12px;
+  background: rgb(15 23 42 / 78%);
+  color: #e2e8f0;
+  font-size: 13px;
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+}
+
+.raycast-info-name {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.raycast-info-detail {
+  margin: 0;
+  color: rgb(203 213 225 / 85%);
+  font-size: 12px;
+  line-height: 1.5;
+}

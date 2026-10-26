@@ -109,14 +109,20 @@ export default function BasicCubeDemo() {
     observer.observe(host);
 
     // ── 7. 渲染循环 ───────────────────────────────────────────
-    // Clock 记录两次调用之间的时间差，让动画速度不受显示器刷新率影响。
+    // Timer 记录两次 update 之间的时间差，让动画速度不受显示器刷新率影响。
     // 如果每帧固定加 0.01，144Hz 屏幕上立方体会比 60Hz 快 2.4 倍。
-    const clock = new THREE.Clock();
+    // 每帧先 update() 再 getDelta()：同一帧里多次读取会得到相同的值。
+    const timer = new THREE.Timer();
+    // connect(document) 启用 Page Visibility API：
+    // 切换到后台标签页时不再累计时间，回来后动画不会突然跳一大步。
+    timer.connect(document);
     let frameId = 0;
 
-    const animate = () => {
+    const animate = (timestamp) => {
+      // requestAnimationFrame 会把当前时间戳传给回调，直接交给 update 使用
+      timer.update(timestamp);
       // delta 是距离上一帧经过的秒数
-      const delta = clock.getDelta();
+      const delta = timer.getDelta();
 
       // 角速度（弧度/秒）× 时间（秒）= 本帧转过的弧度
       cube.rotation.x += delta * 0.55;
@@ -139,6 +145,8 @@ export default function BasicCubeDemo() {
     // 所以这里必须把所有东西还原干净，否则会出现两个 canvas 或内存泄漏。
     return () => {
       cancelAnimationFrame(frameId);
+      // 断开 Page Visibility 监听
+      timer.dispose();
       observer.disconnect();
       // 先释放场景里的几何体 / 材质 / 贴图，再释放渲染器
       disposeObject3D(scene);
@@ -155,7 +163,7 @@ export default function BasicCubeDemo() {
         <h1>旋转立方体</h1>
         <p className="three-intro">
           最小的 Three.js 场景：场景、透视相机、WebGL 渲染器，加上一个受光照影响的立方体。 动画使用
-          Clock 的 delta 驱动，窗口缩放时自动适配尺寸。
+          Timer 的 delta 驱动，窗口缩放时自动适配尺寸。
         </p>
       </header>
 
@@ -167,7 +175,7 @@ export default function BasicCubeDemo() {
       <ul className="three-notes">
         <li>Scene 是容器，Camera 决定看哪里，Renderer 负责把画面画到 canvas 上。</li>
         <li>Mesh = Geometry（形状）+ Material（表面），MeshStandardMaterial 必须有光照才可见。</li>
-        <li>用 Clock 的 delta 做动画，旋转速度才不会随显示器刷新率变化。</li>
+        <li>用 Timer 的 delta 做动画，旋转速度才不会随显示器刷新率变化。</li>
         <li>组件卸载时释放几何体、材质和 WebGL 上下文，避免重复挂载后出现多个画布。</li>
       </ul>
     </div>
